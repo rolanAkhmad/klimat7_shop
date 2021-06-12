@@ -1,0 +1,185 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block css %}
+{% endblock css %}
+
+
+{% block title %} {{ product.category }} {{ product.title }}   {% endblock title %}
+
+{% block content %}
+<div id="productapp">
+    <div class="container">
+        <div class="col-lg-12">
+            <div class="product-details">
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-2">
+                        <div class="image-gallery">
+                            <div class="image-gallery-header">
+                                {% for image in product.get_image_gallery %}
+                                    {% if forloop.first %}
+                                        <img class="image-gallery__image" src="{{ image.medium_image.url }}" alt="{{ image.product.title }}">
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="col-md-8">
+                        <div class="client-conveniences mb-2">
+                            <div class="client-conveniences-item">
+                                <span class="material-icons">
+                                    credit_card
+                                </span>
+                                <span class="pc-visible">
+                                    Удобная оплата
+                                </span>
+                            </div>
+                            <div class="client-conveniences-item">
+                                <span class="material-icons">
+                                    local_shipping
+                                </span>
+                                <span class="pc-visible">
+                                    Быстрая доставка
+                                </span>
+                            </div>
+                            <div class="client-conveniences-item">
+                                <span class="material-icons">
+                                    receipt_long
+                                </span>
+                                <span class="pc-visible">
+                                    Гарантия качества
+                                </span>
+                            </div>
+                            <div class="client-conveniences-item">
+                                <span class="material-icons">
+                                    help
+                                </span>
+                                <span class="pc-visible">Помощь клиенту</span>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-info-header">
+                                <h5 class="product-info__title">  {{ product.title }}</h5>
+                                <p class="product-info__price product_price">{{ product.price }}</p>
+                                <span class="product-info__description">{{ product.short_description|safe }}</span>
+                            </div>
+                            <div class="product-info-footer">
+                                <div class="input-group more-less-input">
+                                    <button class="btn btn-outline-primary minus more-less-input__minus">-</button>
+                                    <input class="count-input more-less-input__input" type="number" class="form-control" value="1" required aria-label="Username">
+                                    <button class="btn btn-outline-primary plus more-less-input__plus">+</button>
+                                </div>
+                                <div class="input-group">
+                                    <button class="btn product-info__cart-btn" data-id="{{ product.id }}">
+                                        <span class="">
+                                            Добавить
+                                        </span>
+                                        <span class="material-icons-round lh-1_5">
+                                            shopping_cart
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="product-additional-materials d-flex justify-content-between">
+                        <div class="product-additional-materials__item">
+                            <span class="material-icons">
+                                description
+                            </span>
+                            <span class="pc-visible">Описание</span>
+                        </div>
+                        <div class="product-additional-materials__item product-additional-materials__item_active">
+                            <span class="material-icons">
+                                straighten
+                            </span>
+                            <span class="pc-visible">Характеристики</span>
+                        </div>
+                        <div class="product-additional-materials__item">
+                            <span class="material-icons">
+                                videocam
+                            </span>
+                            <span class="pc-visible">Видео</span>
+                        </div>
+                        <div class="product-additional-materials__item">
+                            <span class="material-icons">
+                                reviews
+                            </span>
+                            <span class="pc-visible">Отзывы</span>
+                        </div>
+                    </div>
+                <div class="product-info">
+                    <div class="product-specification">
+                        <p class="product-info__specifications">{{ product.specifications|safe }}</p>
+                    </div>   
+                    <div class="product-description">
+                        {{ product.description|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock content %}
+
+
+{% block scripts %}
+<script src="{% static 'js/vanila_tilt.js' %}"></script>
+<script type="text/javascript">
+	VanillaTilt.init(document.querySelector(".image-gallery"), {
+		max: 25,
+		speed: 400
+	});
+	
+	//It also supports NodeList
+	VanillaTilt.init(document.querySelectorAll(".image-gallery"));
+</script>
+<script>
+    $('.plus').on('click', function(){
+        var value = parseInt($('.count-input').val())
+        value += 1
+        $('.count-input').val(value)
+    })
+
+    $('.minus').on('click', function(){
+        var value = parseInt($('.count-input').val())
+        if (value != 1){
+            value -= 1
+        }
+        $('.count-input').val(value)
+    })
+
+    $('.product-info__cart-btn').on('click', function(){
+        product_id = $(this).attr('data-id')
+        count = parseInt($('.count-input').val())
+
+        if(count <= 0){ count = paseInt(1) }
+
+        data = {
+            product_id: product_id,
+            count: count
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'api_add_to_cart' %}",
+            data: data,
+            success: function(data){
+                console.log('success')
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'api_cart_get_total_length' %}",
+                    success: function(response){
+                        var resp = response
+                        $('.cart-btn-counter').html(resp.total_length)
+                    }
+                })
+            }
+        })
+    })
+</script>
+
+<script src="{% static 'js/product-price.js' %}"></script>
+{% endblock %}

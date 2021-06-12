@@ -1,0 +1,81 @@
+{% extends "main.html" %}
+
+{% load static %}
+
+{% block css %}
+
+{% endblock css %}
+
+{% block title %}
+    Вход/Регистрация
+{% endblock title %}
+
+{% block content %}
+    <div class="login-registration-box container">
+        <div class="login-form lr-form">
+            <form class="form lr-form-form" method="post" action=".">
+                {% csrf_token %}
+                <div class="lr-form-header">
+                    <h3 class="lr-form-header__title">Авторизация</h3>
+                </div>
+                <div class="form-item lr-form-item">
+                    <input type="text" required class="lr-form__input" placeholder="Логин" name="login-username">
+                </div>
+                <div class="form-item lr-form-item">
+                    <input type="password" required class="lr-form__input" placeholder="Пароль" name="login-password">
+                </div>
+                <div class="lr-form-footer">
+                    <button class="btn btn-primary form-button lr-form__button">Войти</button>
+                    <a class="form-button lr-form__button go_to_reg_btn">Зарегистрировать акаунт</a>
+                </div>
+            </form>
+        </div>
+        <div class="signup-form lr-form">
+            <div class="lr-form-header">
+                <h3 class="lr-form-header__title">Регистрация</h3>
+            </div>
+            <form class="form" method="post" action=".">
+                {% csrf_token %}
+                <div class="form-item lr-form-item">
+                    <input type="text" name="username"  placeholder="Логин" id="id_username" class="lr-form__input">
+                </div>
+                <div class="form-item lr-form-item">
+                    <input type="text" name="first_name"  placeholder="Имя" id="id_first_name" class="lr-form__input">
+                </div>
+                <div class="form-item lr-form-item">
+                    <input type="text" name="last_name"  placeholder="Фамилия" id="id_last_name" class="lr-form__input">
+                </div>
+                <div class="form-item lr-form-item">
+                    <input type="text" name="email"  placeholder="email" id="id_email" class="lr-form__input">
+                </div>
+                <div class="form-item lr-form-item">
+                    <input type="password" name="password1"  placeholder="Пароль" id="id_password1" class="lr-form__input">
+                </div>
+                <div class="form-item lr-form-item">
+                    <input type="password" name="password2"  placeholder="Повторите пароль" id="id_password2" class="lr-form__input">
+                </div>
+                <div class="lr-form-footer">
+                    <button href="#" class="btn btn-outline-success form-button lr-form__button">Регистрация</button>
+                    <a class="form-button lr-form__button go_to_login_btn">Уже есть акаунт</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block scripts %}
+    <script src="{% static 'js/login-signup.js' %}"></script>
+    <script src="{% static 'js/product-price.js' %}"></script>
+    <script>
+        $('.signup-form').hide()
+        $('.go_to_reg_btn').on('click', function(){
+            $('.login-form').hide()
+            $('.signup-form').show()
+        })
+         $('.go_to_login_btn').on('click', function(){
+            $('.login-form').show()
+            $('.signup-form').hide()
+        })
+    </script>
+{% endblock scripts %}

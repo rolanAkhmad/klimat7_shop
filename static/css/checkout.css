@@ -1,0 +1,72 @@
+.order-form {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border: 1px solid #e1e1e1;
+  padding: 15px 15px;
+  border-radius: 4px;
+}
+
+.order-form > table {
+  margin: 20px 0px;
+}
+
+.order-form-button {
+  padding: 10px 0px;
+}
+
+.form-success {
+  display: none;
+}
+
+.checkout-form {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border: 1px solid #e1e1e1;
+  padding: 15px 15px;
+  border-radius: 4px;
+}
+
+.checkout-form > form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.form-item {
+  margin-top: 15px;
+}
+
+.form-input {
+  margin-top: 7px;
+}
+
+.form-button {
+  margin-top: 15px;
+  padding: 10px 0px;
+}
+/*# sourceMappingURL=checkout.css.map */

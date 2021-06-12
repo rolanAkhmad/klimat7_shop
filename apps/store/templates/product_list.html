@@ -1,0 +1,87 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block title %}
+    Магазин
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="row flex-lg-row">
+            <div class="col-lg-3">
+                {% include 'category_menu.html' %}
+            </div>
+            <div class="col-lg-9">
+                <div class="grid-controller">
+                    <div class="grid-controller__buttons">
+                        <a class="grid-controller__btn list-view btn">
+                            <span class="material-icons lh-1_5">
+                                view_list
+                            </span>
+                        </a>
+                        <a class="grid-controller__btn grid-view btn">
+                            <span class="material-icons lh-1_5">
+                                grid_on
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="store-product-list mb-3">
+                    {% for product in object_list %}
+                        {% include 'product_card.html' %}
+                    {% endfor %}
+                </div>
+                {% comment %} Pagination  {% endcomment %}
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        
+                        {% for number in paginator.page_range %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{number}}">{{number}}</a>
+                            </li>
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block scripts %}
+    <script src="{% static 'js/grid-controller.js' %}"></script>
+    <script src="{% static 'js/product-price.js' %}"></script>
+    <script>
+        $('.category-menu__header').click(function(){
+            toogleMenu($('.category-menu__header-button'), 'expand_more', 'expand_less')
+        })
+    </script>
+{% endblock scripts %}

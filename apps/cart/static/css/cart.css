@@ -1,0 +1,47 @@
+.count-input {
+  width: 50px;
+  text-align: center;
+  outline: none;
+  border: 1px solid #ccc;
+}
+
+th {
+  text-align: center;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.input-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.cart-image {
+  width: 90px;
+  height: 90px;
+}
+
+.main-container {
+  position: relative;
+}
+
+.cart-empty {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  color: #777;
+  margin-bottom: 0;
+  text-align: center;
+  vertical-align: middle;
+}
+/*# sourceMappingURL=cart.css.map */

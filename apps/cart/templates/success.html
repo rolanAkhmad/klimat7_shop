@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block title %}| Заявка принята{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/checkout-success.css' %}">
+{% endblock css %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12"> 
+                <div class="checkout-success-box">
+                    <div>
+                        <h1 class="checkout-success-box__title">Ваша заявка принята</h1>
+                        <p class="checkout-success-box__p">Мы обязательно свяжемся с вами в ближайшее время</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+
+{% endblock scripts %}

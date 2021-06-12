@@ -1,0 +1,21 @@
+<a href="{{ product.get_absolute_url }}" class="card card-block-link slider-product-card">
+    <div class="card-img-block">
+        <img src="{{ product.get_main_image }}" class="card-img-top card-img" alt="{{ product.title }}">
+    </div>
+    <div class="card-body">
+        <h6 class="card-title">{{ product.get_super_title }}</h6>
+        <p class="card-price product_price">{{product.price}}</p>
+    </div>
+    <div class="card-buttons">
+        <button class="btn btn-outline-danger card-buttons__favorite-btn">
+            <span class="material-icons lh-1_5">
+                favorite_border
+            </span>
+        </button>
+        <button class="btn btn-outline-primary">
+                <span class="material-icons lh-1_5">
+                shopping_cart
+            </span>
+        </button>
+    </div>
+</a>

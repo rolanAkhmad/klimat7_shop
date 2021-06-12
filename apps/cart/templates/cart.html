@@ -1,0 +1,192 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Корзина{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock css %}
+
+{% block content %}
+{% if cart %}
+    <div id="cartapp">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Изображение</th>
+                                    <th scope="col">Товар</th>
+                                    <th scope="col">Количество</th>
+                                    <th scope="col">Стоимость</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in cart %}
+                                    <tr class="align-items-center" id="product-id-{{ product.id }}">
+                                        <td><img class="cart-image img-thumbnail" src="{{ product.product.image.url }}" alt="{{product.product.title}}"></td>
+                                        <td><a href="{{ product.get_absolute_url }}">{{ product.product.title }}</a></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <button class="btn btn-primary minus" data-id="{{ product.id }}">-</button>
+                                                <input class="count-input" readonly id="count-input-{{product.id}}" type="text" class="form-control" value="{{ product.quantity }}" required aria-label="Username">
+                                                <button class="btn btn-primary plus" data-id="{{ product.id }}">+</button>
+                                            </div>
+                                        </td>
+                                        <td class="product_price" data-price="{{ product.price }}" data-id="{{ product.id }}" id="product-price-{{product.id}}">{{ product.price }}</td>
+                                        <td>
+                                            <button type="button" data-id="{{product.id}}" class="btn delete-btn">
+                                                <span class="material-icons-outlined">
+                                                    delete
+                                                </span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="3" class="table-active">Общая стоимость</td>
+                                    <td colspan="2" class="total_price"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="table-active">Оформить заказ</td>
+                                    <td colspan="2" class=""><a href="{% url 'checkout' %}" class="btn btn-primary">Оформить</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <p class="cart-empty">Вы еще не добавили ни одного товара в корзину</p>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>    
+    function showPrice(){
+        var total_price = 0
+
+        $('.product_price').each(function(el){
+            product_id = $(this).attr('data-id')
+            product_price = $('#product-price-' + product_id).attr('data-price')
+            value = $('#count-input-' + product_id).val()
+            $('#product-price-' + product_id).html(parseFloat(product_price * value))
+        })
+        
+        document.querySelectorAll('.product_price').forEach(function(el) {
+            price = parseFloat(el.textContent);
+            total_price += price
+            result = price.toLocaleString()
+            result += ' ₸'
+            el.textContent = result
+        });
+
+        $('.total_price').html(total_price.toLocaleString() + ' ₸')
+    }
+
+    showPrice()
+
+    $('.plus').on('click', function(){
+        product_id = $(this).attr('data-id')
+        
+        var input_id = '#count-input-' + product_id
+        
+        var value = parseInt($(input_id).val())
+        value +=1
+
+        $(input_id).val(value)
+
+        data = {
+            product_id: product_id,
+            count: value
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'api_add_to_cart' %}",
+            data: data,
+            success: function(data){
+                $.ajax({
+                        type: 'GET',
+                        url: "{% url 'api_cart_get_total_length' %}",
+                        success: function(response){
+                            var resp = response
+                            $('.cart-btn-counter').html(resp.total_length)
+                        }
+                })
+            }
+        })
+        product_price = $('#product-price-' + product_id).attr('data-price')
+        $('#product-price-' + product_id).html(parseFloat(product_price * value))
+        showPrice()
+    })
+
+    $('.minus').on('click', function(){
+        product_id = $(this).attr('data-id')
+        var input_id = '#count-input-' + product_id
+        var value = parseInt($(input_id).val())
+
+        if(value <=1){
+        }else{
+            $(input_id).val(value - 1)
+            count =  $(input_id).val()
+            data = {
+                product_id: product_id,
+                count: count
+            }
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'api_add_to_cart' %}",
+                data: data,
+                success: function(data){
+                    $.ajax({
+                        type: 'GET',
+                        url: "{% url 'api_cart_get_total_length' %}",
+                        success: function(response){
+                            var resp = response
+                            $('.cart-btn-counter').html(resp.total_length)
+                        }
+                    })
+                }
+            })
+        }
+    
+        product_price = $('#product-price-' + product_id).attr('data-price')
+        $('#product-price-' + product_id).html(parseFloat(product_price * value))
+
+        showPrice()
+    })
+
+    $('.delete-btn').on('click', function(){
+        product_id = $(this).attr('data-id')
+
+        data = {
+            product_id: product_id
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'api_remove_from_cart' %}",
+            data: data,
+            success: function(data){
+                $('#product-id-' + product_id).remove()
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'api_cart_get_total_length' %}",
+                    success: function(response){
+                        var resp = response
+                        $('.cart-btn-counter').html(resp.total_length)
+                        showPrice()
+                    }
+                })
+            }
+        })
+        
+    })
+</script>
+{% endblock %}

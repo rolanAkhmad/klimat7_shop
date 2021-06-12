@@ -1,0 +1,17 @@
+<ul class="category-menu__ul">
+    <div class="category-menu__header" data-bs-toggle="collapse" data-bs-target="#menu-list" >
+        <h5 class="category-menu__header-title">Категории</h5>
+        <button class="category-menu__header-button btn" >
+            <span class="material-icons lh-1_5">
+                expand_less
+            </span>
+        </button>
+    </div>
+    <div class="category-menu__link-wrapper collapse show" id="menu-list">
+        {% for category in menu_categories %}
+            <a href="{{ category.get_absolute_url }}" class="category-menu__link">
+                <li class="category-menu__li">{{ category.title }} ({{category.get_company_count}})</li>
+            </a>
+        {% endfor %}
+    </div>
+</ul>

@@ -1,0 +1,226 @@
+{% load static %}
+
+<div class="container">
+    <div class="header-navbar">
+        <div class="header-logo">
+            <a class="" href="{% url 'index' %}"><img src="{% static 'images/klimat7-logo_white.svg' %}" heigth="100" width="130" alt="klimat7 logo"></a>
+        </div>
+        {% comment %} <div class="header-about pc-visible">
+            <div class="input-group">
+                <a href="tel:+77006917708" title="написать" class="btn btn-outline-light">
+                    <span class="material-icons-round lh-1_5">
+                        email
+                    </span>
+                </a>
+                <button title="скопировать" class="btn header-about__copy-btn-secondary">
+                    klimat7@gmail.com
+                </button>
+            </div>
+            <div class="input-group">
+                <a href="tel:+77006917708" title="позвонить" class="btn btn-outline-light">
+                    <span class="material-icons-round lh-1_5">
+                        call
+                    </span>
+                </a>
+                <button title="скопировать" class="btn header-about__copy-btn-secondary">
+                    8 700 691 7708
+                </button>
+            </div>
+        </div> {% endcomment %}
+        <div class="header-search">
+            <form method="get" action="{% url 'search' %}">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="query" placeholder="Я ищу...">
+                    <button type="submit" class="btn btn-outline-light header-buttons-group__btn" type="button">
+                        <span class="material-icons lh-1_5">
+                            search
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="header-buttons">
+            <!-- about -->
+            <div class="header-buttons-group header-buttons-group_about pc-visible">
+                <div class="input-group">
+                    <a href="tel:+77006917708" title="написать" class="btn btn-outline-light header-buttons-group__btn">
+                        <span class="material-icons-round lh-1_5">
+                            email
+                        </span>
+                    </a>
+                    <a href="tel:+77006917708" title="позвонить" class="btn btn-outline-light header-buttons-group__btn">
+                        <span class="material-icons-round lh-1_5">
+                            call
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <!-- cart/wishlist -->
+            <div class="header-buttons-group header-buttons-group_cart-wish pc-visible">
+                <div class="input-group">
+                    <a href="{% url 'cart' %}" title="Избранное" class="btn btn-outline-light header-buttons-group__btn">
+                        <span class="material-icons lh-1_5">
+                            favorite
+                        </span>
+                    </a>
+                    <a href="{% url 'cart' %}" title="Корзина" class="btn btn-outline-light cart-btn header-buttons-group__btn">
+                        <span class="material-icons lh-1_5">
+                            shopping_cart
+                        </span>
+                        <span class="badge bg-primary cart-btn-counter">{{ cart.get_total_length }}</span>
+                    </a>
+                </div>
+            </div>
+            <!-- login/register -->
+            <div class="header-buttons-group header-buttons-group_login-register pc-visible">
+                {% if request.user.is_authenticated %}
+                    <div class="input-group">
+                        <a href="" title="Профиль" class="btn btn-outline-light header-buttons-group__btn">
+                            <span class="material-icons-round">
+                                person
+                            </span>
+                        </a>
+                        <a href="{% url 'logout' %}" title="Выйти" class="btn btn-outline-light header-buttons-group__btn">
+                            <span class="material-icons lh-1_5">
+                                logout
+                            </span>
+                        </a>
+                    </div>
+                {% else %}
+                    <a href="{% url 'login-signup' %}" title="Логин" class="btn btn-outline-light header-buttons-group__btn">
+                        <span class="material-icons lh-1_5">
+                            login
+                        </span>
+                    </a>
+                {% endif %}
+            </div>
+            <!-- menu -->
+            <div class="header-buttons-group header-buttons-group_menu">
+                <a href="#" class="btn btn-outline-light header-buttons__menu-btn menu-btn header-buttons-group__btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="material-icons lh-1_5">
+                        menu
+                    </span> 
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="colored-shadow" style="background-image: url(&quot;https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/spot.jpg&quot;);"></div>
+</div>
+<div class="container">
+    <div class="header-menu navbar-collapse collapse" id="navbarCollapse">
+        <ul class="header-menu__navbar-ul">
+            <li class="header-menu__navbar-li">
+                <a class="header-menu__navbar-link" aria-current="page" href="{% url 'index' %}">Главная</a>
+            </li>
+            <li class="header-menu__navbar-li">
+                <a class="header-menu__navbar-link" href="{% url 'shop' %}">Магазин</a>
+            </li>
+            <li class="header-menu__navbar-li">
+                <a class="header-menu__navbar-link header-menu__navbar-link_spoiler d-flex align-items-center" href-"#" data-bs-toggle="collapse" data-bs-target="#menu__category-menu">
+                    Категории
+                    <span class ="nav-menu__categoryes">
+                        <span class="material-icons lh-1_5">
+                            expand_more
+                        </span>
+                    </span>
+                </a>
+                <ul class="collapse" id="menu__category-menu">
+                    {% for category in menu_categories %}
+                        <li><a href="{{category.get_absolute_url}}">{{category.title}}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="header-menu__navbar-li">
+                <a class="header-menu__navbar-link" href="{% url 'shop' %}">Контакты</a>
+            </li>
+            <li class="header-menu__navbar-li">
+                <a class="header-menu__navbar-link" href="{% url 'shop' %}">Наш блог</a>
+            </li>
+            <li class="header-menu__navbar-li">
+                <a class="header-menu__navbar-link" href="{% url 'shop' %}">Новое поступление</a>
+            </li>
+            <li class="header-menu__navbar-li">
+                <a class="header-menu__navbar-link" href="{% url 'shop' %}">Распродажа</a>
+            </li>
+        </ul>
+        <div class="phone-visible">
+            <div class="header-search">
+                <form method="get" action="{% url 'search' %}">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="query" placeholder="Я ищу...">
+                        <button type="submit" class="btn btn-outline-light header-buttons-group__btn" type="button">
+                            <span class="material-icons lh-1_5">
+                                search
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="buttons d-flex">
+                <!-- search -->
+                <div class="header-buttons-group header-buttons-group_search">
+                    <button title="Поиск" class="btn btn-outline-light header-buttons__search-btn header-buttons-group__btn">
+                        <span class="material-icons lh-1_5">
+                            search
+                        </span>
+                    </button>
+                </div>
+                <!-- about -->
+                <div class="header-buttons-group header-buttons-group_about tablet-visible">
+                    <div class="input-group">
+                        <a href="tel:+77006917708" title="написать" class="btn btn-outline-light">
+                            <span class="material-icons-round lh-1_5">
+                                email
+                            </span>
+                        </a>
+                        <a href="tel:+77006917708" title="позвонить" class="btn btn-outline-light">
+                            <span class="material-icons-round lh-1_5">
+                                call
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <!-- cart/wishlist -->
+                <div class="header-buttons-group header-buttons-group_cart-wish">
+                    <div class="input-group">
+                        <a href="{% url 'cart' %}" title="Избранное" class="btn btn-outline-light header-buttons-group__btn">
+                            <span class="material-icons lh-1_5">
+                                favorite
+                            </span>
+                        </a>
+                        <a href="{% url 'cart' %}" title="Корзина" class="btn btn-outline-light cart-btn header-buttons-group__btn">
+                            <span class="material-icons lh-1_5">
+                                shopping_cart
+                            </span>
+                            <span class="badge bg-primary cart-btn-counter">{{ cart.get_total_length }}</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- login/register -->
+                <div class="header-buttons-group">
+                    {% if request.user.is_authenticated %}
+                        <div class="input-group">
+                            <a href="" title="Профиль" class="btn btn-outline-light header-buttons-group__btn">
+                                <span class="material-icons-round">
+                                    person
+                                </span>
+                            </a>
+                            <a href="{% url 'logout' %}" title="Выйти" class="btn btn-outline-light header-buttons-group__btn">
+                                <span class="material-icons lh-1_5">
+                                    logout
+                                </span>
+                            </a>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'login-signup' %}" title="Логин" class="btn btn-outline-light header-buttons-group__btn">
+                            <span class="material-icons lh-1_5">
+                                login
+                            </span>
+                        </a>
+                    {% endif %}
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

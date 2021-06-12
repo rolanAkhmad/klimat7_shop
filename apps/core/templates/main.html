@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Климат 7 {% block title %} {% endblock title %}</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/glide.core.css' %}">
+    <link rel="stylesheet" href="{% static 'css/glide.theme.css' %}">
+    {% block css %}{% endblock css %}
+</head>
+<body>
+    <header class="header">
+        {% include 'header_top.html' %}
+    </header>
+
+    <main class="main-container">
+        {% block content %}
+        {% endblock content %}
+    </main>
+    
+    <!-- ::::::  Start  Footer Section  ::::::  -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col footer-logo-section">
+                    <a href="index.html" class="footer__logo">
+                        <img src="{% static 'images/klimat7-logo.svg' %}" width="150px" class="footer__logo-img">
+                    </a>
+                </div>
+                <div class="footer__menu">
+                    <h4 class="footer__menu-title">Продукты</h4>
+                    <ul class="footer__nav footer__menu-ul">
+                        <li class="footer__list"><a href="" class="footer__link">Скидки</a></li>
+                        <li class="footer__list"><a href="" class="footer__link">Новое поступление</a></li>
+                        <li class="footer__list"><a href="" class="footer__link">Горячие товары</a></li>
+                        <li class="footer__list"><a href="" class="footer__link">Газовые котлы</a></li>
+                        <li class="footer__list"><a href="" class="footer__link">Газовые горелки</a></li>
+                    </ul>
+                </div>
+                <div class="footer__menu">
+                    <h4 class="footer__menu-title">Наша компания</h4>
+                    <ul class="footer__nav footer__menu-ul">
+                        <li class="footer__list"><a href="" class="footer__link">Главная</a></li>
+                        <li class="footer__list"><a href="" class="footer__link">Магазин</a></li>
+                        <li class="footer__list"><a href="" class="footer__link">Контакты</a></li>
+                        <li class="footer__list"><a href="" class="footer__link">Рекомендации</a></li>
+                        <li class="footer__list"><a href="" class="footer__link">Распродажа</a></li>
+                    </ul>
+                </div>
+                <div class="footer__menu">
+                    <h4 class="footer__menu-title">Дополнительно</h4>
+                    <ul class="footer__nav footer__menu-ul">
+                        <li class="footer__list"><a href="" class="footer__link">Доставка</a></li>
+                        <li class="footer__list"><a href="" class="footer__link">Условия соглашения</a></li>
+                        <li class="footer__list"><a href="" class="footer__link">О нас</a></li>
+                        <li class="footer__list"><a href="" class="footer__link">Магазин</a></li>
+                        <li class="footer__list"><a href="" class="footer__link">Блог</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer> <!-- ::::::  End  Footer Section  ::::::  -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        $('.header-buttons__search-btn').click(function() {
+            $('.header-search').toggleClass('d-block')
+        })
+        
+        $('.header-buttons__menu-btn').click(function(){
+            toogleMenu($(this), 'close', 'menu')
+        })
+
+        $('.header-menu__navbar-link_spoiler').click(function(){
+            toogleMenu($('.nav-menu__categoryes'), 'expand_less', 'expand_more')
+        })
+    </script>
+    {% block scripts %}
+    {% endblock scripts %}
+</body>
+</html>

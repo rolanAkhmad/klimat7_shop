@@ -1,0 +1,157 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock css %}
+
+
+
+
+{% block content %}
+<div class="container">
+    {% if cart %}
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="checkout-form">
+                    <div class="section-content">
+                        <h5 class="section-content__title">Детали заказа</h5>
+                    </div>
+                    {% if request.user.is_authenticated %}
+                        <form class="form" action="#" method="post" class="form-box">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-box__single-group form-item">
+                                        <label for="form-first-name">Имя</label>
+                                        <input class="form-control form-input" name="first_name" required type="text" value="{{ user.first_name }}" id="form-first-name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-box__single-group form-item">
+                                        <label for="form-last-name">Фамилия</label>
+                                        <input class="form-control form-input" name="last_name" required value="{{ user.last_name }}"  type="text" id="form-last-name">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-box__single-group form-item">
+                                        <label for="form-address-1">Физический адресс</label>
+                                        <input class="form-control form-input" name="city" type="text" id="form-address-1" placeholder="Город">
+                                        <input class="form-control form-input" name="street" type="text" class="m-t-10" id="form-address-2" placeholder="Улица, дом">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-box__single-group form-item">
+                                        <label for="form-phone">Номер</label>
+                                        <input class="form-control form-input" name="phone" required value="{{ user.phone }}" type="phone" id="form-phone">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-box__single-group form-item">
+                                        <label for="form-email">Email</label>
+                                        <input class="form-control form-input" name="email" required value="{{ user.email }}" type="email" id="form-email">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-box__single-group form-item">
+                                        <h6>Дополнительная информация</h6>
+                                        <label for="form-additional-info">Примечания к заказу</label>
+                                        <textarea  class="form-control form-input" name="description" id="form-additional-info" rows="5" placeholder="Нужно доставить к 25 числу, подскажите, получится?"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="form-success hidden" type="submit" ></button>
+                        </form>
+                    {% else %}
+                        <form class="form" action="#" method="post" class="form-box">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-box__single-group form-item">
+                                        <label for="form-first-name">Имя</label>
+                                        <input class="form-control form-input" name="first_name" required type="text" id="form-first-name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-box__single-group form-item">
+                                        <label for="form-last-name">Фамилия</label>
+                                        <input class="form-control form-input" name="last_name" required type="text" id="form-last-name">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-box__single-group form-item">
+                                        <label for="form-address-1">Физический адресс</label>
+                                        <input class="form-control form-input" name="city" type="text" id="form-address-1" placeholder="Город">
+                                        <input class="form-control form-input" name="street" type="text" class="m-t-10" id="form-address-2" placeholder="Улица, дом">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-box__single-group form-item">
+                                        <label for="form-phone">Номер</label>
+                                        <input class="form-control form-input" name="phone" required type="phone" id="form-phone">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-box__single-group form-item">
+                                        <label for="form-email">Email</label>
+                                        <input class="form-control form-input" name="email" required type="email" id="form-email">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-box__single-group form-item">
+                                        <h6>Дополнительная информация</h6>
+                                        <label for="form-additional-info">Примечания к заказу</label>
+                                        <textarea  class="form-control form-input" name="description" id="form-additional-info" rows="5" placeholder="Нужно доставить к 25 числу, подскажите, получится?"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="form-success hidden" type="submit" ></button>
+                        </form>
+                    {% endif %}
+                    
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="order-form">
+                    <div class="section-content">
+                        <h5 class="section-content__title">Ваш заказ</h5>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Товар</th>
+                                <th scope="col">Количество</th>
+                                <th scope="col">Стоимость</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for item in cart %}
+                                    <th scope="row">{{ item.product.title }}</th>
+                                    <td>{{ item.quantity }}</td>
+                                    <td class="product_price">{{ item.total_price }}</td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-primary order-form-button" type="submit">Оформить заказ</button>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>Ваша корзина пуста</p>
+    {% endif %}
+</div>
+{% endblock content %}
+
+
+{% block scripts %}
+<script>
+    $('.order-form-button').on('click', function(){
+        $('.form-success').trigger('click');
+        console.log("hello")
+    })
+</script>
+{% endblock scripts %}
+
